@@ -1,0 +1,35 @@
+
+###
+
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+    "username": "vimu"
+}
+
+###
+
+POST http://localhost:4000/token
+Content-Type: application/json
+
+{
+    "token":
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidmltdSIsImlhdCI6MTY2NDc5NzM1N30.0Y79xJnJv-GwtJi6kHqADGW1Ln4Vfsy4pDYikJA9BLA"
+}
+
+###
+
+GET http://localhost:4000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidmltdSIsImlhdCI6MTY2NDc5NTkzNCwiZXhwIjoxNjY0Nzk1OTU0fQ.K3eX5F2nLrG506F0IdKdPnikz4C2EwWEQ0cvI38jkJY
+
+
+
+###
+
+DELETE http://localhost:4000/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidmltdSIsImlhdCI6MTY2NDc5MzA1N30.6XLfGGB7yCcuk33bp8UnGMtbdnorIV8Eyp3kKydSGVE"
+}
