@@ -11,14 +11,24 @@ app.use(express.json());
 
 let refreshTokens = [];
 
+const users = ["vimu"];
+
 const posts = [
   {
-    username: "kyle",
+    username: "vimu",
     title: "post 1",
   },
   {
     username: "vimu",
     title: "post 2",
+  },
+  {
+    username: "vimu",
+    title: "post 3",
+  },
+  {
+    username: "vimu",
+    title: "post 4",
   },
 ];
 
@@ -37,8 +47,6 @@ const authenticateToken = (req, res, next) => {
 };
 
 app.get("/posts", authenticateToken, (req, res) => {
-  console.log("hello");
-  console.log(req.user);
   res.status(200).json(posts.filter((post) => post.username === req.user.name));
 });
 // ----------------------- //
@@ -62,24 +70,24 @@ app.delete("/logout", (req, res) => {
 
 app.post("/login", (req, res) => {
   //Authenticate User
-
-  console.log(req.body);
-
   const username = req.body.username;
   const user = { name: username };
+  if (users.includes(username)) {
+    const accessToken = generateAccessToken(user);
 
-  const accessToken = generateAccessToken(user);
+    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
+      expiresIn: "15s",
+    });
+    refreshTokens.push(refreshToken);
 
-  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "25s",
-  });
-  refreshTokens.push(refreshToken);
-
-  res.json({ accessToken: accessToken, refreshToken: refreshToken });
+    res.json({ accessToken: accessToken, refreshToken: refreshToken });
+  } else {
+    res.status(401).json({ message: "Invalid credentials" });
+  }
 });
 
 const generateAccessToken = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "20s" });
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10s" });
 };
 
 app.listen(PORT, () => {
